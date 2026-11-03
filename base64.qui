@@ -1,0 +1,72 @@
+private int | error sextet(string character)
+    string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+    match alphabet.find(character)
+        nat position
+            return int(position)
+        none
+            return error("invalid Base64 alphabet character", code = "ENCODING_BASE64")
+
+string | error encode(bin data)
+    if len(data) % 8 != 0
+        return error("Base64 input is not byte-aligned", code = "ENCODING_BASE64")
+    nat8[] bytes = nat8[](data)
+    string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+    string result = ""
+    nat index = 0
+    while index < len(bytes)
+        int first = int(bytes[index])
+        int second = 0
+        int third = 0
+        bool has_second = index + 1 < len(bytes)
+        bool has_third = index + 2 < len(bytes)
+        if has_second
+            second = int(bytes[index + 1])
+        if has_third
+            third = int(bytes[index + 2])
+        nat a = nat(first / 4)
+        nat b = nat((first % 4) * 16 + second / 16)
+        nat c = nat((second % 16) * 4 + third / 64)
+        nat d = nat(third % 64)
+        result += alphabet[a]
+        result += alphabet[b]
+        result += if has_second then alphabet[c] else "="
+        result += if has_third then alphabet[d] else "="
+        index += 3
+    return result
+
+bin | error decode(string encoded)
+    nat8[] bytes = []
+    if len(encoded) % 4 != 0
+        return error("invalid Base64 length", code = "ENCODING_BASE64")
+    nat index = 0
+    while index < len(encoded)
+        string a = encoded[index]
+        string b = encoded[index + 1]
+        string c = encoded[index + 2]
+        string d = encoded[index + 3]
+        int high = try sextet(a)
+        int mid = try sextet(b)
+        bool pad_two = c == "="
+        bool pad_one = d == "="
+        if pad_two and not pad_one
+            return error("invalid Base64 padding", code = "ENCODING_BASE64")
+        if (pad_two or pad_one) and index + 4 != len(encoded)
+            return error("Base64 padding must be final", code = "ENCODING_BASE64")
+        int low = 0
+        int tail = 0
+        if not pad_two
+            low = try sextet(c)
+        if not pad_one
+            tail = try sextet(d)
+        if pad_two and mid % 16 != 0
+            return error("noncanonical Base64 pad bits", code = "ENCODING_BASE64")
+        if pad_one and not pad_two and low % 4 != 0
+            return error("noncanonical Base64 pad bits", code = "ENCODING_BASE64")
+        int combined = high * 262144 + mid * 4096 + low * 64 + tail
+        bytes = bytes.append(nat8(combined / 65536 % 256))
+        if not pad_two
+            bytes = bytes.append(nat8(combined / 256 % 256))
+        if not pad_one
+            bytes = bytes.append(nat8(combined % 256))
+        index += 4
+    return bin(bytes)

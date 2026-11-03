@@ -1,0 +1,4 @@
+name = encoding
+version = 0.6.0
+repository = https://github.com/quidra-lang/encoding
+requires.quidra = >=0.6.0 <0.7.0
