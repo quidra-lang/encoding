@@ -12,8 +12,8 @@ quidra install quidra-encoding
 
 ```quidra
 import encoding
-string encoded = encoding.base64.encode("Hello".utf8())
-bin decoded = encoding.base64.decode(encoded)
+string encoded := encoding.base64.encode("Hello".utf8())
+bin decoded := encoding.base64.decode(encoded)
 ```
 
 `base64.encode(bin) -> string | error` rejects input whose bit length is not divisible by eight. `base64.decode(string) -> bin | error` requires the standard alphabet, 4-character groups, correct trailing `=` padding and zero unused pad bits. All non-Base64 text (including whitespace) is rejected. Empty inputs are valid. No silent text/UTF-8 conversion occurs; use `.utf8()` and `string.from_utf8` explicitly.

@@ -1,10 +1,10 @@
 import encoding
 
-bin bytes = "Hello".utf8()
-string encoded = encoding.base64.encode(bytes)
+bin bytes := "Hello".utf8()
+string encoded := encoding.base64.encode(bytes)
 print.line("{encoded}")
-bin decoded = encoding.base64.decode(encoded)
-string original = string.from_utf8(decoded)
+bin decoded := encoding.base64.decode(encoded)
+string original := string.from_utf8(decoded)
 print.line("{original}")
 print.line("{encoding.base64.encode(bin.fill(0, 0))}")
 match encoding.base64.decode("Zg=")
