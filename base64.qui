@@ -15,8 +15,8 @@ string | error encode(bin data)
     nat index := 0
     while index < len(bytes)
         first := int(bytes[index])
-        int second := 0
-        int third := 0
+        second := 0
+        third := 0
         has_second := index + 1 < len(bytes)
         has_third := index + 2 < len(bytes)
         if has_second
@@ -52,8 +52,8 @@ bin | error decode(string encoded)
             return error("invalid Base64 padding", code = "ENCODING_BASE64")
         if (pad_two or pad_one) and index + 4 != len(encoded)
             return error("Base64 padding must be final", code = "ENCODING_BASE64")
-        int low := 0
-        int tail := 0
+        low := 0
+        tail := 0
         if not pad_two
             low = try sextet(c)
         if not pad_one
