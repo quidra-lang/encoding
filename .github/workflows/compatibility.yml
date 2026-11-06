@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: quidra-lang/quidra
-          ref: 84f122237795f1b6258a588ce740b377cbe6740d
+          ref: 0d0150b6aeaeecf26f471cbbc0fce35f2876782e
           path: core
       - run: sudo apt-get update && sudo apt-get install -y llvm clang cmake libcurl4-openssl-dev
       - run: cmake -S core -B core/build -DCMAKE_BUILD_TYPE=Release && cmake --build core/build --target quidra --parallel 3

@@ -7,18 +7,18 @@ private int | error sextet(string character)
             return error("invalid Base64 alphabet character", code = "ENCODING_BASE64")
 
 string | error encode(bin data)
-    if len(data) % 8 != 0
+    if data.len() % 8 != 0
         return error("Base64 input is not byte-aligned", code = "ENCODING_BASE64")
     bytes := nat8[](data)
     alphabet := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
     result := ""
     nat index := 0
-    while index < len(bytes)
+    while index < bytes.len()
         first := int(bytes[index])
         second := 0
         third := 0
-        has_second := index + 1 < len(bytes)
-        has_third := index + 2 < len(bytes)
+        has_second := index + 1 < bytes.len()
+        has_third := index + 2 < bytes.len()
         if has_second
             second = int(bytes[index + 1])
         if has_third
@@ -36,10 +36,10 @@ string | error encode(bin data)
 
 bin | error decode(string encoded)
     nat8[] bytes := []
-    if len(encoded) % 4 != 0
+    if encoded.len() % 4 != 0
         return error("invalid Base64 length", code = "ENCODING_BASE64")
     nat index := 0
-    while index < len(encoded)
+    while index < encoded.len()
         a := encoded[index]
         b := encoded[index + 1]
         c := encoded[index + 2]
@@ -50,7 +50,7 @@ bin | error decode(string encoded)
         pad_one := d == "="
         if pad_two and not pad_one
             return error("invalid Base64 padding", code = "ENCODING_BASE64")
-        if (pad_two or pad_one) and index + 4 != len(encoded)
+        if (pad_two or pad_one) and index + 4 != encoded.len()
             return error("Base64 padding must be final", code = "ENCODING_BASE64")
         low := 0
         tail := 0

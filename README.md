@@ -2,7 +2,7 @@
 
 First-party binary/text encoding package for Quidra 0.6.x.
 
-Use [Core `84f1222`](https://github.com/quidra-lang/quidra/commit/84f122237795f1b6258a588ce740b377cbe6740d) or later for the numeric literal defaults used by this development version. The compatibility workflow pins that baseline.
+Use [Core `0d0150b`](https://github.com/quidra-lang/quidra/commit/0d0150b6aeaeecf26f471cbbc0fce35f2876782e) or later for `.len()` on binary values, strings, and arrays. The compatibility workflow pins that baseline.
 
 ## Installation
 
