@@ -2,7 +2,7 @@
 
 First-party binary/text encoding package for Quidra 0.6.x.
 
-Use [Core `43328df`](https://github.com/quidra-lang/quidra/commit/43328df98bfb17df13b27b852068263a0453c687) or later for `#value` and `.len()` on binary values, strings, and arrays. The compatibility workflow pins that baseline.
+Use [Core `61eb141`](https://github.com/quidra-lang/quidra/commit/61eb1411721c7eb7f444c6d9af15fb72fbeb7a6a) or later for `#value` and `.len()` on binary values, strings, and arrays. The compatibility workflow pins that baseline.
 
 On `develop`, `#value` is the ordinary zero-argument `value.len()` call. It also works automatically for custom classes and visible extensions that provide `len`; return types, errors and access/effect checks are unchanged. Standard array, string and binary lengths remain `nat`.
 
